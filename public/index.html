@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Web socket 101</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+	<link href="/styles.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="mario-chat">
+	<h1 id="H1">Let's Chat</h1>
+	<div id="chat-window">
+		<div id="output" style="overflow-y: scroll; height:450px;">
+
+		</div>
+		<div id="feedback">
+			
+		</div>
+	</div>
+	<input type="text" id="handle" placeholder="Handle"/>
+	<input type="text" id="message" placeholder="Message"/>
+	<button id="send">SEND</button>
+</div>
+
+<div id="board">
+<canvas id="myCanvas" width="800px" height="750px">
+        Sorry, your browser doesn't support canvas technology.
+</canvas>
+<p>Color picker: <select id="selectColor">
+                  <option id="colBlack" value="black" selected="selected">Black</option>
+                  <option id="colRed" value="red">Red</option>
+                  <option id="colBlue" value="blue">Blue</option>
+                  <option id="colGreen" value="green">Green</option>
+                  <option id="colOrange" value="orange">Orange</option>
+                  <option id="colYellow" value="yellow">Yellow</option>
+</select>
+</p>
+<p>Size: <select id="selectSize">
+                  <option id="one" value="5" selected="selected">5</option>
+                  <option id="two" value="15">15</option>
+                  <option id="three" value="25">25</option>
+                  <option id="four" value="35">35</option>
+                  <option id="five" value="45">45</option>
+                  <option id="six" value="55">55</option>
+</select>
+</p>
+<button id="clear">Clear</button>
+<button id="eraser">Eraser</button>
+<p>font style: <select id="selectFont">
+                  <option id="Arial" value="Arial" selected="selected">Arial</option>
+                  <option id="Helvetica" value="Helvetica">Helvetica</option>
+                  <option id="Courier" value="Courier">Courier</option>
+                  <option id="Times" value="Times">Times</option>
+                  <option id="Verdana" value="Verdana">Verdana</option>
+                  <option id="Georgia" value="Georgia">Georgia</option>
+</select>
+</p>
+<input type="text" id="addtext" placeholder="Add Text"/>
+<button id="go">Go</button>
+<a id="download">Download Image</a>
+</div><!-- END board -->
+<script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js?ver=1.4.2"></script>
+
+<script src="/chat.js"></script>
+</body>
+
+</html>

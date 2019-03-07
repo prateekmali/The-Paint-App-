@@ -1,0 +1,65 @@
+#handle{
+	width:98%;
+	margin:0.7%;
+	height:40px;
+}
+
+#message{
+	width:98%;
+	margin:0.7%;
+	height:40px;
+}
+
+#send{
+	width:98%;	
+    margin:0.7%;
+    height:40px;
+    border-radius:5px;
+    background-color:blue;
+    color: white;
+    font-size:15px;
+}
+
+#mario-chat{
+	width:30%;
+	border: 2px solid black;
+    margin-top:80px;
+    float:right;
+    margin-right: 100px;
+    display:inline;
+}
+
+#chat-window{
+    height:500px;
+    background-color:#ebebe0 ;
+}
+
+#p{
+    color: #585859;
+}
+
+body {
+    margin: 0;
+    padding:5px; 
+    /*background-color: #99ffcc;*/    
+}
+ 
+#board {
+    width: 500px;  
+    margin-left: 100px;
+    margin-top: 50px;
+    float:left;
+    display:inline;
+}
+ 
+#myCanvas {
+    border: 3px dotted #000;       
+}
+
+#download{
+	margin-left: -151px;
+}
+
+#H1{
+margin-left: 35%;
+}
