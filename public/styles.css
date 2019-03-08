@@ -31,7 +31,7 @@
 
 #chat-window{
     height:500px;
-    background-color:#ebebe0 ;
+/*    background-color:#ebebe0 ;*/
 }
 
 #p{
@@ -41,7 +41,8 @@
 body {
     margin: 0;
     padding:5px; 
-    /*background-color: #99ffcc;*/    
+    /*background-color: #99ffcc;*/   
+     background-image: url("image1.jpg"); 
 }
  
 #board {
@@ -53,13 +54,25 @@ body {
 }
  
 #myCanvas {
-    border: 3px dotted #000;       
+    border: 3px dotted #000;   
+    background-color: #ffffff;
 }
 
 #download{
-	margin-left: -151px;
+	margin-left: -222px;
+	font-size: 35px;
+	color: blue;
 }
 
 #H1{
-margin-left: 35%;
+margin-left: 33.5%;
 }
+
+#heading{
+border-bottom: 2px solid #000;  
+}
+
+#addtext{
+	margin-left: 5%;
+}
+

@@ -8,15 +8,18 @@ var button = document.getElementById('send');
 var output = document.getElementById('output');
 var feedback = document.getElementById('feedback');
 var link = document.getElementById("download");
+var at = document.getElementById("addtext");
 // var mode="pen";
 var LastX;
 var LastY;
 var LastX1;
 var LastY1;
-var AddText;
+var textcontent;
+var flag=0;
+// var AddText = "";
 // var mode = "pen";
 // var curColor2 = "black";
-var Font = "Arial";
+// var Font = "Arial";
 // trigering events
 button.addEventListener('click',function(){
 socket.emit('chat', {
@@ -47,7 +50,7 @@ message.addEventListener('keypress',function(){
  });
 
  socket.on('typing',function(data){
- feedback.innerHTML = '<p style = "color:#585859" ><strong>'+data+'</strong> is typing.......</p>';
+ feedback.innerHTML = '<p style = "color:#000000" ><strong>'+data+'</strong> is typing.......</p>';
  });
 
  window.onload = function() {
@@ -57,7 +60,7 @@ message.addEventListener('keypress',function(){
                 if(myCanvas){
                                 var isDown      = false;
                                 var ctx = myCanvas.getContext("2d");
-                                ctx.fillStyle = "white";
+                                // ctx.fillStyle = "white";
                                 // ctx2.fillStyle = "white";
                                 var ctx2 = myCanvas.getContext("2d");
                                 var canvasX, canvasY;
@@ -76,8 +79,10 @@ message.addEventListener('keypress',function(){
                                                 socket.emit('mousedown',{canvasX,canvasX});
                                 })
                                 .mousemove(function(e){
+                                	if(flag==0){
                                                 if(isDown != false) {
                                                 	// if(mode="pen"){
+                                                		ctx.globalCompositeOperation = 'source-over';
                                                         canvasX = e.pageX - myCanvas.offsetLeft;
                                                         canvasY = e.pageY - myCanvas.offsetTop;
                                                         ctx.lineTo(canvasX, canvasY);
@@ -85,7 +90,7 @@ message.addEventListener('keypress',function(){
                                                         // linewidth=ctx.lineWidth;
                                                         ctx.lineWidth = Size;
                                                         ctx.stroke();
-                                                        socket.emit('mousemove', {canvasX,canvasY,curColor,Size});
+                                                        socket.emit('mousemove', {canvasX,canvasY,curColor,Size,flag});
                                                     // }
                                                     // else{
                                                     // 	ctx.globalCompositeOperation="destination-out";
@@ -93,6 +98,20 @@ message.addEventListener('keypress',function(){
                                                     //     ctx.fill();
                                                     // }
                                                 }
+                                               }
+                                               if(flag==1){
+                                               	        if(isDown != false) {
+                                               	        canvasX = e.pageX - myCanvas.offsetLeft;
+                                                        canvasY = e.pageY - myCanvas.offsetTop;
+                                                        ctx.lineTo(canvasX, canvasY);
+                                                        ctx.strokeStyle = curColor;
+                                                        // linewidth=ctx.lineWidth;
+                                                        ctx.lineWidth = Size;
+                                                        ctx.stroke();
+                                                        ctx.globalCompositeOperation = 'destination-out';
+                                                        socket.emit('mousemove', {canvasX,canvasY,curColor,Size,flag});
+                                                    }
+                                               }
                                 })
                                 .mouseup(function(e){
                                                 isDown = false;
@@ -109,11 +128,22 @@ message.addEventListener('keypress',function(){
                          });
 
                          socket.on('mousemove',function(data){
+
+                         	if(data.flag==0){
                          // if(mode="pen"){ 
+                         ctx2.globalCompositeOperation = 'source-over';
                          ctx2.lineTo(data.canvasX, data.canvasY);
                          ctx2.lineWidth = data.Size;
                          ctx2.strokeStyle = data.curColor;
                          ctx2.stroke();
+                     }
+                     if(data.flag==1){ 
+                     	 ctx2.globalCompositeOperation = 'destination-out';
+                     	 ctx2.lineTo(data.canvasX, data.canvasY);
+                         ctx2.lineWidth = data.Size;
+                         ctx2.strokeStyle = data.curColor;
+                         ctx2.stroke();
+                     }
                      // }
                      // else {
                      //      ctx2.globalCompositeOperation="destination-out";
@@ -131,12 +161,23 @@ message.addEventListener('keypress',function(){
                          ctx2.clearRect(0, 0, myCanvas.width, myCanvas.height);
                          });
 
+                         socket.on('text1',function(data){
+                         ctx2.font = "30px Arial";
+                         ctx2.fillText(data, 40, 50);
+                         });
+
+
 
 
                 }
+
+                // $('#d1').click(function () {
+                //     canvasToImage('white');
+                // });
                  
                 $('#selectColor').click(function () {
                     curColor = $('#selectColor option:selected').val();
+                    flag=0;
                     // curColor2 = curColor ;
                     // mode="pen";
                 });
@@ -149,12 +190,13 @@ message.addEventListener('keypress',function(){
                 //          curColor = curColor2;
                 //                });
 
-                 $('#selectFont').change(function () {
-                    Font = $('#selectFont option:selected').val();
-                });
+                //  $('#selectFont').change(function () {
+                //     Font = $('#selectFont option:selected').val();
+                // });
 
                 $('#eraser').click(function(){
-                	curColor = 'white';
+                	// curColor = 'white';
+                    flag=1;
                 });
 
 
@@ -163,30 +205,59 @@ message.addEventListener('keypress',function(){
                    socket.emit('clear',1);
                 });
 
-                $('#go').click(function(){
-
-                  if(Font=="Arial"){
-                   ctx.font = "100px Arial";
-                }
-                  if(Font=="Georgia"){
-                   ctx.font = "100px Georgia";
-                }
-                  if(Font=="Verdana"){
-                   ctx.font = "100px Verdana";
-                }
-                  if(Font=="Courier"){
-                   ctx.font = "100px Courier";
-                }
-                  if(Font=="Times"){
-                   ctx.font = "100px Times";
-                }
-                  if(Font=="Helvetica"){
-                   ctx.font = "100px Helvetica";
-                }
-                   AddText = $('#addtext').val();
-                   ctx.fillText(AddText, 10, 100);
+                $('#go').click(function(){   
+                // console.log(at.value);
+                 textcontent = at.value;             
+                 ctx.font = "30px Arial";
+                 ctx.fillText(textcontent, 40, 50);
+                 socket.emit('text1',textcontent);
+                 at.value  = "";
                 });
                 // $("#eraser").click(function(){ mode="eraser"; });
+
+//                 function canvasToImage(backgroundColor)
+// {
+// 	//cache height and width		
+// 	var w = myCanvas.width;
+// 	var h = myCanvas.height;
+// 	var data1;
+ 
+// 	if(backgroundColor)
+// 	{
+// 		//get the current ImageData for the canvas.
+// 		data1 = ctx.getImageData(0, 0, w, h);
+ 
+// 		//store the current globalCompositeOperation
+// 		var compositeOperation = ctx.globalCompositeOperation;
+ 
+// 		//set to draw behind current content
+// 		ctx.globalCompositeOperation = "destination-over";
+ 
+// 		//set background color
+// 		ctx.fillStyle = backgroundColor;
+ 
+// 		//draw background / rect on entire canvas
+// 		ctx.fillRect(0,0,w,h);
+// 	}
+ 
+// 	//get the image data from the canvas
+// 	var imageData = this.canvas.toDataURL("image/png");
+ 
+// 	if(backgroundColor)
+// 	{
+// 		//clear the canvas
+// 		ctx.clearRect (0,0,w,h);
+ 
+// 		//restore it with original / cached ImageData
+// 		ctx.putImageData(data, 0,0);
+ 
+// 		//reset the globalCompositeOperation to what it was
+// 		ctx.globalCompositeOperation = compositeOperation;
+// 	}
+ 
+// 	//return the Base64 encoded data url string
+// 	return imageData;
+// }
 
                  
         };
