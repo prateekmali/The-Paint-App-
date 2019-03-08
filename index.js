@@ -37,4 +37,8 @@ io.on('connection',function(socket){
   socket.broadcast.emit('clear', data);
  });
 
+  socket.on('text1',function(data){
+  socket.broadcast.emit('text1', data);
+ });
+
 });
